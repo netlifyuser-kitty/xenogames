@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Xeno Games</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a0612'/%3E%3Cpath d='M6 32Q32 6 58 32Q32 58 6 32Z' fill='none' stroke='%235af2ff' stroke-width='4'/%3E%3Ccircle cx='32' cy='32' r='8' fill='%23ff4fd8'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600&family=Unbounded:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0612;--panel:rgba(28,18,52,.72);--line:rgba(160,130,255,.24);--text:#efeaff;--mute:#a095c4;--cy:#5af2ff;--mg:#ff4fd8;--vi:#8b5cff;--r:16px}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{margin:0;min-height:100vh;color:var(--text);font:16px/1.5 "Chakra Petch",system-ui,sans-serif;
+ background:radial-gradient(900px 500px at 15% -10%,rgba(139,92,255,.35),transparent 60%),radial-gradient(800px 500px at 100% 10%,rgba(255,79,216,.2),transparent 60%),var(--bg)}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--cy);outline-offset:3px}
+#bg{position:fixed;inset:0;z-index:0;pointer-events:none}
+.wrap{position:relative;z-index:1;max-width:1120px;margin:auto;padding:0 22px}
+
+/* gate */
+#gate{position:fixed;inset:0;z-index:20;display:grid;place-items:center;background:var(--bg);transition:opacity .6s,visibility .6s}
+#gate.out{opacity:0;visibility:hidden}
+.gbox{display:grid;gap:22px;justify-items:center;padding:20px}
+.eye{width:92px;height:92px;filter:drop-shadow(0 0 18px var(--mg))}
+.eye .iris{animation:look 5s ease-in-out infinite}
+@keyframes look{0%,100%{transform:translateX(0)}30%{transform:translateX(9px)}65%{transform:translateX(-9px)}}
+.gbox h1{margin:0;font:900 clamp(2rem,9vw,3.2rem)/1 Unbounded,sans-serif;letter-spacing:.04em}
+.dots{display:flex;gap:14px}
+.dots i{width:16px;height:16px;border-radius:50%;border:2px solid var(--vi);transition:.15s}
+.dots i.on{background:var(--cy);border-color:var(--cy);box-shadow:0 0 14px var(--cy)}
+.dots.shake{animation:shake .4s}
+@keyframes shake{25%{transform:translateX(-10px)}75%{transform:translateX(10px)}}
+.pad{display:grid;grid-template-columns:repeat(3,68px);gap:10px}
+.pad button{height:56px;border-radius:14px;border:1px solid var(--line);background:var(--panel);font-size:1.25rem;font-weight:600;transition:.15s}
+.pad button:hover{border-color:var(--cy);box-shadow:0 0 16px rgba(90,242,255,.35)}
+.pad button:active{transform:scale(.94)}
+#msg{margin:0;min-height:1.4em;color:var(--mg)}
+
+/* hero */
+.hero{padding:54px 0 18px;display:grid;gap:10px}
+.hero h1{margin:0;font:900 clamp(3.4rem,13vw,7.5rem)/.9 Unbounded,sans-serif;letter-spacing:-.02em;position:relative;width:fit-content;
+ background:linear-gradient(100deg,var(--cy),var(--vi) 50%,var(--mg));-webkit-background-clip:text;background-clip:text;color:transparent}
+body.in .hero h1{animation:boot 1.1s steps(14) both}
+@keyframes boot{0%{clip-path:inset(0 100% 0 0);filter:blur(6px)}100%{clip-path:inset(0 0 0 0);filter:none}}
+.hero h1::before,.hero h1::after{content:attr(data-t);position:absolute;inset:0;opacity:0;-webkit-background-clip:text;background-clip:text}
+.hero h1:hover::before{opacity:.9;background:var(--cy);-webkit-background-clip:text;background-clip:text;color:transparent;transform:translate(-4px,2px);clip-path:inset(0 0 55% 0)}
+.hero h1:hover::after{opacity:.9;background:var(--mg);-webkit-background-clip:text;background-clip:text;color:transparent;transform:translate(4px,-2px);clip-path:inset(50% 0 0 0)}
+.hero p{margin:0;color:var(--mute);font-size:1.1rem;max-width:46ch}
+
+/* toolbar */
+.bar{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 14px}
+.bar input{flex:1 1 240px;padding:13px 18px;border-radius:999px;border:1px solid var(--line);background:var(--panel);backdrop-filter:blur(8px)}
+.bar input:focus{border-color:var(--cy);box-shadow:0 0 18px rgba(90,242,255,.25);outline:0}
+.btn{padding:12px 20px;border-radius:999px;border:1px solid var(--line);background:var(--panel);backdrop-filter:blur(8px);transition:.15s}
+.btn:hover{border-color:var(--mg);box-shadow:0 0 16px rgba(255,79,216,.35)}
+.btn.hot{background:linear-gradient(100deg,var(--vi),var(--mg));border:0;font-weight:600}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+.tabs button{padding:8px 16px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--mute);transition:.15s}
+.tabs button:hover{color:var(--text)}
+.tabs button[aria-pressed=true]{background:var(--text);color:var(--bg);border-color:var(--text);font-weight:600}
+.count{color:var(--mute);margin:0 0 14px}
+
+/* cards */
+#grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px;padding-bottom:40px}
+.card{--rx:0deg;--ry:0deg;position:relative;border-radius:var(--r);border:1px solid var(--line);background:var(--panel);backdrop-filter:blur(8px);overflow:hidden;text-align:left;padding:0;
+ transform:perspective(700px) rotateX(var(--rx)) rotateY(var(--ry));transition:transform .12s,border-color .2s,box-shadow .2s}
+.card:hover{border-color:var(--cy);box-shadow:0 12px 40px rgba(139,92,255,.35),0 0 0 1px rgba(90,242,255,.25)}
+.art{height:150px;display:grid;place-items:center;font:900 2.6rem Unbounded,sans-serif;color:rgba(255,255,255,.92);text-shadow:0 0 24px rgba(0,0,0,.5);position:relative;
+ background:radial-gradient(circle at 30% 20%,hsla(var(--h),95%,65%,.9),transparent 55%),linear-gradient(145deg,hsl(var(--h),70%,28%),hsl(calc(var(--h) + 70),70%,14%))}
+.art::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.05) 0 1px,transparent 1px 4px)}
+.meta{padding:14px 16px 16px;display:grid;gap:4px}
+.meta h2{margin:0;font:700 1.15rem Unbounded,sans-serif}
+.meta p{margin:0;color:var(--mute);font-size:.92rem}
+.tag{font-size:.8rem;color:var(--cy)}
+.fav{position:absolute;top:10px;right:10px;z-index:2;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:rgba(10,6,18,.6);font-size:1.1rem;line-height:1}
+.fav[aria-pressed=true]{color:var(--mg);border-color:var(--mg)}
+.open{position:absolute;inset:0;background:none;border:0}
+#empty{color:var(--mute);padding:30px 0}
+
+/* player */
+#player{position:fixed;inset:0;z-index:15;background:var(--bg);display:none;grid-template-rows:auto 1fr}
+#player.on{display:grid}
+.pbar{display:flex;gap:10px;align-items:center;padding:10px 16px;border-bottom:1px solid var(--line)}
+.pbar strong{flex:1;font:700 1.1rem Unbounded,sans-serif;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#frame{width:100%;height:100%;border:0;background:#000}
+footer{position:relative;z-index:1;text-align:center;color:var(--mute);font-size:.85rem;padding:0 22px 30px}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+
+<div id="gate">
+  <div class="gbox">
+    <svg class="eye" viewBox="0 0 64 64" aria-hidden="true"><path d="M3 32Q32 4 61 32Q32 60 3 32Z" fill="none" stroke="#5af2ff" stroke-width="3"/><g class="iris"><circle cx="32" cy="32" r="11" fill="#ff4fd8"/><ellipse cx="32" cy="32" rx="3" ry="9" fill="#0a0612"/></g></svg>
+    <h1>XENO GAMES</h1>
+    <div class="dots" id="dots" aria-label="PIN entry"><i></i><i></i><i></i><i></i></div>
+    <div class="pad" id="pad"></div>
+    <p id="msg" role="alert">Enter the 4-digit code</p>
+  </div>
+</div>
+
+<div class="wrap">
+  <section class="hero">
+    <h1 data-t="XENO">XENO</h1>
+    <p>Free browser games from open-source creators. No downloads, no installs, just play.</p>
+  </section>
+  <div class="bar">
+    <input id="q" type="search" placeholder="Search games" aria-label="Search games">
+    <button class="btn hot" id="rand">Surprise me</button>
+  </div>
+  <div class="tabs" id="tabs"></div>
+  <p class="count" id="count"></p>
+  <div id="grid"></div>
+  <div id="empty" hidden>No games match. Try another search or category.</div>
+</div>
+<footer>All games are free, open-source, or freeware and hosted by their creators.</footer>
+
+<div id="player">
+  <div class="pbar">
+    <button class="btn" id="back">Back</button>
+    <strong id="ptitle"></strong>
+    <button class="btn" id="fs">Fullscreen</button>
+    <a id="ext" target="_blank" rel="noopener"><button class="btn hot">New tab</button></a>
+  </div>
+  <iframe id="frame" title="Game" allow="fullscreen; gamepad" referrerpolicy="no-referrer"></iframe>
+</div>
+
+<script>
+// Add games here. Only add games you have the right to host or link to.
+const GAMES=[
+ {name:"2048",cat:"Puzzle",glyph:"2048",h:35,desc:"Slide tiles and merge them to reach 2048.",url:"https://gabrielecirulli.github.io/2048/"},
+ {name:"Hextris",cat:"Puzzle",glyph:"⬢",h:270,desc:"Fast Tetris-style game on a spinning hexagon.",url:"https://hextris.github.io/hextris/"},
+ {name:"React Tetris",cat:"Classic",glyph:"▦",h:190,desc:"Faithful Tetris with sound and keyboard controls.",url:"https://chvin.github.io/react-tetris/"},
+ {name:"Pac-Man",cat:"Classic",glyph:"ᗧ··",h:50,desc:"Eat the dots, dodge the ghosts.",url:"https://daleharvey.github.io/pacman/"},
+ {name:"Clumsy Bird",cat:"Arcade",glyph:"🐦",h:150,desc:"Tap to flap through the pipes.",url:"https://ellisonleao.github.io/clumsy-bird/"},
+ {name:"Astray",cat:"Arcade",glyph:"◍",h:320,desc:"Roll a ball through a 3D maze.",url:"https://wwwtyro.github.io/Astray/"}
+];
+const HASH="c096d44ca5d254a444de9a3b21cefaa4fb84e61facddc1dcf0fac59521bc0de4"; // SHA-256 of the PIN. Browser-side check only, not real security.
+const $=s=>document.querySelector(s);
+const RM=matchMedia("(prefers-reduced-motion:reduce)").matches;
+
+/* background spores */
+const cv=$("#bg"),cx=cv.getContext("2d");let W,H,P=[];
+function size(){W=cv.width=innerWidth;H=cv.height=innerHeight;P=Array.from({length:Math.min(90,W/14|0)},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*2+.6,v:Math.random()*.45+.12,h:Math.random()<.5?185:310}))}
+function draw(){cx.clearRect(0,0,W,H);for(const p of P){p.y-=p.v;p.x+=Math.sin(p.y/55)*.25;if(p.y<-6){p.y=H+6;p.x=Math.random()*W}
+ cx.beginPath();cx.fillStyle=`hsla(${p.h},100%,72%,.6)`;cx.shadowBlur=14;cx.shadowColor=`hsl(${p.h},100%,60%)`;cx.arc(p.x,p.y,p.r,0,7);cx.fill()}
+ if(!RM)requestAnimationFrame(draw)}
+addEventListener("resize",size);size();draw();
+
+/* gate */
+async function sha(t){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(t));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}
+let buf="";
+const dots=()=>document.querySelectorAll("#dots i").forEach((d,i)=>d.classList.toggle("on",i<buf.length));
+function open_(){$("#gate").classList.add("out");document.body.classList.add("in");try{sessionStorage.setItem("xg","1")}catch(e){}}
+async function press(k){
+  if(!$("#gate")||$("#gate").classList.contains("out"))return;
+  if(k==="x")buf=buf.slice(0,-1);else if(buf.length<4)buf+=k;
+  dots();
+  if(buf.length<4)return;
+  if(!window.crypto||!crypto.subtle){$("#msg").textContent="Open this site over https to sign in.";buf="";dots();return}
+  if(await sha(buf)===HASH)open_();
+  else{$("#msg").textContent="Wrong code";$("#dots").classList.add("shake");setTimeout(()=>$("#dots").classList.remove("shake"),420);buf="";dots()}
+}
+["1","2","3","4","5","6","7","8","9","x","0"].forEach(k=>{const b=document.createElement("button");b.textContent=k==="x"?"⌫":k;b.onclick=()=>press(k);$("#pad").append(b)});
+$("#pad").insertAdjacentHTML("beforeend","");
+addEventListener("keydown",e=>{if(/^\d$/.test(e.key))press(e.key);else if(e.key==="Backspace")press("x")});
+try{if(sessionStorage.getItem("xg")==="1"){$("#gate").classList.add("out");document.body.classList.add("in")}}catch(e){}
+
+/* library */
+let cat="All",favs=[];
+try{favs=JSON.parse(localStorage.getItem("xg-favs")||"[]")}catch(e){}
+const saveFavs=()=>{try{localStorage.setItem("xg-favs",JSON.stringify(favs))}catch(e){}};
+const cats=["All","Favorites",...new Set(GAMES.map(g=>g.cat))];
+function tabs(){$("#tabs").innerHTML="";cats.forEach(c=>{const b=document.createElement("button");b.textContent=c;b.setAttribute("aria-pressed",c===cat);b.onclick=()=>{cat=c;tabs();render()};$("#tabs").append(b)})}
+function render(){
+  const q=$("#q").value.trim().toLowerCase();
+  const list=GAMES.filter(g=>(cat==="All"||(cat==="Favorites"?favs.includes(g.name):g.cat===cat))&&(g.name+g.desc).toLowerCase().includes(q));
+  $("#grid").innerHTML="";
+  list.forEach(g=>{
+    const c=document.createElement("div");c.className="card";
+    c.innerHTML=`<div class="art"></div><div class="meta"><span class="tag"></span><h2></h2><p></p></div><button class="open"></button><button class="fav" aria-label="Favorite">★</button>`;
+    const art=c.querySelector(".art");art.style.setProperty("--h",g.h);art.textContent=g.glyph;
+    c.querySelector(".tag").textContent=g.cat;c.querySelector("h2").textContent=g.name;c.querySelector("p").textContent=g.desc;
+    c.querySelector(".open").setAttribute("aria-label","Play "+g.name);c.querySelector(".open").onclick=()=>play(g);
+    const f=c.querySelector(".fav");f.setAttribute("aria-pressed",favs.includes(g.name));
+    f.onclick=e=>{e.stopPropagation();favs=favs.includes(g.name)?favs.filter(n=>n!==g.name):[...favs,g.name];saveFavs();render()};
+    if(!RM){c.addEventListener("pointermove",e=>{const r=c.getBoundingClientRect();c.style.setProperty("--ry",((e.clientX-r.left)/r.width-.5)*10+"deg");c.style.setProperty("--rx",(.5-(e.clientY-r.top)/r.height)*10+"deg")});
+      c.addEventListener("pointerleave",()=>{c.style.setProperty("--rx","0deg");c.style.setProperty("--ry","0deg")})}
+    $("#grid").append(c);
+  });
+  $("#count").textContent=list.length+(list.length===1?" game":" games");
+  $("#empty").hidden=list.length>0;
+}
+function play(g){$("#ptitle").textContent=g.name;$("#frame").src=g.url;$("#ext").href=g.url;$("#player").classList.add("on")}
+$("#back").onclick=()=>{$("#player").classList.remove("on");$("#frame").src="about:blank";if(document.fullscreenElement)document.exitFullscreen()};
+$("#fs").onclick=()=>{const f=$("#frame");(f.requestFullscreen||f.webkitRequestFullscreen||(()=>{})).call(f)};
+$("#rand").onclick=()=>play(GAMES[Math.floor(Math.random()*GAMES.length)]);
+$("#q").addEventListener("input",render);
+tabs();render();
+</script>
+</body>
+</html>
