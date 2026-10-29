@@ -225,9 +225,34 @@ const GAMES=[
  {name:"Sunroom Puzzles",cat:"Puzzle",glyph:"🧩",h:0,desc:"Jigsaws, Crosswords, Sudoku.",url:"https://sunroomgames.com/puzzles"},
  {name:"BePuzzled",cat:"Puzzle",glyph:"🧩",h:0,desc:"Minesweeper, Word Search, Jigsaw.",url:"https://be-puzzled.com/"},
  {name:"Kawu Puzzles",cat:"Card",glyph:"🃏",h:0,desc:"Solitaire variants.",url:"https://kawu.com/puzzle-games"},
- {name:"Gamearians",cat:"Collection",glyph:"🎮",h:0,desc:"Arcade game collection.",url:"https://gamearians.github.io/games/"}
+ {name:"Gamearians",cat:"Collection",glyph:"🎮",h:0,desc:"Arcade game collection.",url:"https://gamearians.github.io/games/"},
+ {name:"Basket Random",cat:"Sports",glyph:"🏀",h:120,desc:"Physics-based basketball chaos.",url:"https://www.randombasketball.com/"},
+ {name:"Block Blast",cat:"Puzzle",glyph:"🧱",h:15,desc:"Drag blocks to clear rows.",url:"https://blockblast.ie/"},
+ {name:"Geometry Dash",cat:"Arcade",glyph:"🔷",h:200,desc:"Rhythm-based platformer.",url:"https://webdashers.online/"},
+ {name:"Fruit Ninja",cat:"Arcade",glyph:"🍉",h:330,desc:"Slice flying fruit.",url:"https://poki.com/en/g/fruit-ninja"},
+ {name:"Jetpack Joyride",cat:"Arcade",glyph:"🚀",h:200,desc:"Endless jetpack runner.",url:"https://play.storms.com/"},
+ {name:"Raft Wars",cat:"Shooter",glyph:"🚣",h:120,desc:"Defend treasure from pirates.",url:"https://raft-wars.com/"},
+ {name:"Raft Wars 2",cat:"Shooter",glyph:"🚣",h:120,desc:"More raft battles.",url:"https://raft-wars.com/"},
+ {name:"Retro Bowl",cat:"Sports",glyph:"🏈",h:50,desc:"Retro football game.",url:"https://retrobowl.me/"},
+ {name:"Slope",cat:"Arcade",glyph:"🏎",h:200,desc:"Roll down neon slopes.",url:"https://playslope.io/"},
+ {name:"Subway Surfers",cat:"Arcade",glyph:"🏃",h:120,desc:"Endless runner on train tracks.",url:"https://retrobowl.me/subway-surfers"},
+ {name:"Tap Tap Shots",cat:"Sports",glyph:"🏀",h:120,desc:"Basketball shooting game.",url:"https://www.crazygames.com/game/tap-tap-shots"},
+ {name:"Tunnel Rush",cat:"Arcade",glyph:"🚇",h:200,desc:"Navigate colorful tunnels.",url:"https://subwaysurfers.me/game/game2"},
+ {name:"Hole.io",cat:"Arcade",glyph:"⭕",h:0,desc:"Swallow everything as a black hole.",url:"https://hole.io/"},
+ {name:"Crossy Road",cat:"Arcade",glyph:"🐔",h:120,desc:"Cross roads safely.",url:"https://ucbg-games.github.io/category/all.html"},
+ {name:"Cookie Clicker",cat:"Idle",glyph:"🍪",h:30,desc:"Click cookies, earn points.",url:"https://crossyroad.app/games/cookie-clicker/"},
+ {name:"Slice Master",cat:"Skill",glyph:"🔪",h:200,desc:"Slice everything in your path.",url:"https://poki.com/en/g/slice-master"},
+ {name:"Burrito Bison",cat:"Arcade",glyph:"🌯",h:120,desc:"Launch bison at gummy bears.",url:"https://burritobison.org/"},
+ {name:"Cluster Rush",cat:"Arcade",glyph:"⚡",h:120,desc":"Fast-paced cluster game.",url:"https://mgalternative.github.io/"},
+ {name:"Snow Rider 3D",cat:"Racing",glyph:"🎿",h:120,desc:"Sled down snowy mountains.",url:"https://snowrider.app/"},
+ {name:"Bottle Flip 3D",cat:"Skill",glyph:"🍾",h:0,desc:"Flip bottles through levels.",url:"https://blooket1.com/play/bottle%20flip%203d/"},
+ {name:"Sandboxels",cat:"Creative",glyph:"🧪",h:30,desc:"Falling sand physics simulator.",url:"https://neal.fun/sandboxels/"},
+ {name:"Moto X3M",cat:"Racing",glyph:"🏍",h:120,desc:"Motorcycle stunt racing.",url:"https://poki.com/en/g/moto-x3m"},
+ {name:"Ragdoll Archers",cat:"Shooter",glyph:"🏹",h:200,desc:"Physics archery battles.",url:"https://www.crazygames.com/game/ragdoll-archers"},
+ {name:"Ragdoll Hit",cat:"Fighting",glyph:"👊",h:200,desc:"Stickman fighting game.",url:"https://poki.com/en/g/ragdoll-hit"},
+ {name:"Stumble Guys",cat:"Party",glyph:"🤪",h:120,desc:"Chaotic party obstacle race.",url:"https://www.stumbleguys.com/"}
 ];
-const HASH="c096d44ca5d254a444de9a3b21cefaa4fb84e61facddc1dcf0fac59521bc0de4"; // SHA-256 of the PIN. Browser-side check only, not real security.
+const PIN="3830"; // Browser-side check only, not real security.
 const $=s=>document.querySelector(s);
 const RM=matchMedia("(prefers-reduced-motion:reduce)").matches;
 
@@ -249,22 +274,22 @@ function draw(){cx.clearRect(0,0,W,H);
 addEventListener("resize",size);size();draw();
 
 /* gate */
-async function sha(t){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(t));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}
 let buf="";
 const dots=()=>document.querySelectorAll("#dots i").forEach((d,i)=>d.classList.toggle("on",i<buf.length));
 function open_(){$("#gate").classList.add("out");document.body.classList.add("in");try{sessionStorage.setItem("ag","1")}catch(e){}}
-async function press(k){
+function press(k){
   if(!$("#gate")||$("#gate").classList.contains("out"))return;
   if(k==="x")buf=buf.slice(0,-1);else if(buf.length<4)buf+=k;
   dots();
   if(buf.length<4)return;
-  if(!window.crypto||!crypto.subtle){$("#msg").textContent="Open this site over https to sign in.";buf="";dots();return}
-  if(await sha(buf)===HASH)open_();
+  if(buf===PIN)open_();
   else{$("#msg").textContent="Wrong code";$("#dots").classList.add("shake");setTimeout(()=>$("#dots").classList.remove("shake"),420);buf="";dots()}
 }
-["1","2","3","4","5","6","7","8","9","x","0"].forEach(k=>{const b=document.createElement("button");b.textContent=k==="x"?"⌫":k;b.onclick=()=>press(k);$("#pad").append(b)});
-$("#pad").insertAdjacentHTML("beforeend","");
-addEventListener("keydown",e=>{if(/^\d$/.test(e.key))press(e.key);else if(e.key==="Backspace")press("x")});
+function createKeypad(){
+  ["1","2","3","4","5","6","7","8","9","x","0"].forEach(k=>{const b=document.createElement("button");b.textContent=k==="x"?"⌫":k;b.onclick=()=>press(k);$("#pad").append(b)});
+  addEventListener("keydown",e=>{if(/^\d$/.test(e.key))press(e.key);else if(e.key==="Backspace")press("x")});
+}
+document.addEventListener("DOMContentLoaded",createKeypad);
 try{if(sessionStorage.getItem("ag")==="1"){$("#gate").classList.add("out");document.body.classList.add("in")}}catch(e){}
 
 /* library */
