@@ -155,27 +155,27 @@ footer{position:relative;z-index:1;text-align:center;color:var(--mute);font-size
 <script>
 // Add games here. Only add games you have the right to host or link to.
 const GAMES=[
- {name:"2048",cat:"Puzzle",glyph:"2048",h:35,desc:"Slide tiles and merge them to reach 2048.",url:"https://gabrielecirulli.github.io/2048/"},
+ {name:"2048",cat:"Puzzle",glyph:"2048",h:35,desc:"Slide tiles and merge them to reach 2048.",url:"2048.html"},
  {name:"Hextris",cat:"Puzzle",glyph:"⬢",h:270,desc:"Fast Tetris-style game on a spinning hexagon.",url:"https://hextris.github.io/hextris/"},
  {name:"React Tetris",cat:"Classic",glyph:"▦",h:190,desc:"Faithful Tetris with sound and keyboard controls.",url:"https://chvin.github.io/react-tetris/"},
  {name:"Pac-Man",cat:"Classic",glyph:"ᗧ··",h:50,desc:"Eat the dots, dodge the ghosts.",url:"https://daleharvey.github.io/pacman/"},
  {name:"Clumsy Bird",cat:"Arcade",glyph:"🐦",h:150,desc:"Tap to flap through the pipes.",url:"https://ellisonleao.github.io/clumsy-bird/"},
  {name:"Astray",cat:"Arcade",glyph:"◍",h:320,desc:"Roll a ball through a 3D maze.",url:"https://wwwtyro.github.io/Astray/"},
- {name:"Snake",cat:"Classic",glyph:"🐍",h:120,desc:"Guide the snake, eat food, grow longer.",url:"https://sanand0.github.io/test/"},
+ {name:"Snake",cat:"Classic",glyph:"🐍",h:120,desc:"Guide the snake, eat food, grow longer.",url:"snake.html"},
  {name:"Minesweeper",cat:"Puzzle",glyph:"💣",h:30,desc:"Find all mines without blowing up.",url:"https://maybaah.github.io/arcade/"},
  {name:"Sudoku",cat:"Puzzle",glyph:"9️⃣",h:180,desc:"Fill the 9x9 grid with numbers 1-9.",url:"https://maybaah.github.io/arcade/"},
  {name:"Wordle",cat:"Word",glyph:"🔤",h:200,desc:"Guess the hidden word in 6 tries.",url:"https://maybaah.github.io/arcade/"},
  {name:"Chess",cat:"Board",glyph:"♔",h:50,desc:"Classic strategy board game.",url:"https://maybaah.github.io/arcade/"},
- {name:"Tic Tac Toe",cat:"Board",glyph:"⭕",h:0,desc:"X vs O with AI or 2-player mode.",url:"https://maybaah.github.io/arcade/"},
+ {name:"Tic Tac Toe",cat:"Board",glyph:"⭕",h:0,desc:"X vs O game.",url:"tictactoe.html"},
  {name:"Space Invaders",cat:"Arcade",glyph:"👾",h:340,desc:"Blast waves of descending aliens.",url:"https://masonp25.github.io/calculator/game-site/index.html"},
- {name:"Breakout",cat:"Arcade",glyph:"🧱",h:15,desc:"Smash bricks with a bouncing ball.",url:"https://masonp25.github.io/calculator/game-site/index.html"},
- {name:"Pong",cat:"Classic",glyph:"🏓",h:120,desc:"Classic paddle battle game.",url:"https://masonp25.github.io/calculator/game-site/index.html"},
+ {name:"Breakout",cat:"Arcade",glyph:"🧱",h:15,desc:"Smash bricks with a bouncing ball.",url:"breakout.html"},
+ {name:"Pong",cat:"Classic",glyph:"🏓",h:120,desc:"Classic paddle battle game.",url:"pong.html"},
  {name:"Asteroids",cat:"Arcade",glyph:"☄️",h:330,desc:"Destroy asteroids in deep space.",url:"https://przemekzur.github.io/games/"},
  {name:"Sandspiel",cat:"Creative",glyph:"🏜️",h:30,desc:"Creative falling sand simulation.",url:"https://sandspiel.club/"},
  {name:"Hangman",cat:"Word",glyph:"🎯",h:0,desc:"Guess the word before you run out of lives.",url:"https://ghaithba.com/games"},
  {name:"Connect Four",cat:"Board",glyph:"🔴",h:0,desc:"Drop four discs in a row to win.",url:"https://ghaithba.com/games"},
  {name:"Frogger",cat:"Arcade",glyph:"🐸",h:120,desc:"Cross the road and river safely.",url:"https://vinay-ghate.github.io/Arcadia/"},
- {name:"Memory",cat:"Puzzle",glyph:"🃏",h:280,desc:"Flip cards to find matching pairs.",url:"https://spsokhi.github.io/mini-games/"},
+ {name:"Memory",cat:"Puzzle",glyph:"🃏",h:280,desc:"Flip cards to find matching pairs.",url:"memory.html"},
  {name:"Whack-a-Mole",cat:"Arcade",glyph:"🔨",h:30,desc:"Hit moles as they pop up.",url:"https://vinay-ghate.github.io/Arcadia/"},
  {name:"Rock Paper Scissors",cat:"Casual",glyph:"✂️",h:0,desc:"Classic hand game against CPU.",url:"https://MarzSaksorn.github.io/Gamehub/"},
  {name:"Typing Speed",cat:"Casual",glyph:"⌨️",h:200,desc:"Test and improve your typing speed.",url:"https://maybaah.github.io/arcade/"},
@@ -243,14 +243,16 @@ const GAMES=[
  {name:"Cookie Clicker",cat:"Idle",glyph:"🍪",h:30,desc:"Click cookies, earn points.",url:"https://crossyroad.app/games/cookie-clicker/"},
  {name:"Slice Master",cat:"Skill",glyph:"🔪",h:200,desc:"Slice everything in your path.",url:"https://poki.com/en/g/slice-master"},
  {name:"Burrito Bison",cat:"Arcade",glyph:"🌯",h:120,desc:"Launch bison at gummy bears.",url:"https://burritobison.org/"},
- {name:"Cluster Rush",cat:"Arcade",glyph:"⚡",h:120,desc":"Fast-paced cluster game.",url:"https://mgalternative.github.io/"},
+ {name:"Cluster Rush",cat:"Arcade",glyph:"⚡",h:120,desc:"Fast-paced cluster game.",url:"https://mgalternative.github.io/"},
  {name:"Snow Rider 3D",cat:"Racing",glyph:"🎿",h:120,desc:"Sled down snowy mountains.",url:"https://snowrider.app/"},
  {name:"Bottle Flip 3D",cat:"Skill",glyph:"🍾",h:0,desc:"Flip bottles through levels.",url:"https://blooket1.com/play/bottle%20flip%203d/"},
  {name:"Sandboxels",cat:"Creative",glyph:"🧪",h:30,desc:"Falling sand physics simulator.",url:"https://neal.fun/sandboxels/"},
  {name:"Moto X3M",cat:"Racing",glyph:"🏍",h:120,desc:"Motorcycle stunt racing.",url:"https://poki.com/en/g/moto-x3m"},
  {name:"Ragdoll Archers",cat:"Shooter",glyph:"🏹",h:200,desc:"Physics archery battles.",url:"https://www.crazygames.com/game/ragdoll-archers"},
  {name:"Ragdoll Hit",cat:"Fighting",glyph:"👊",h:200,desc:"Stickman fighting game.",url:"https://poki.com/en/g/ragdoll-hit"},
- {name:"Stumble Guys",cat:"Party",glyph:"🤪",h:120,desc:"Chaotic party obstacle race.",url:"https://www.stumbleguys.com/"}
+ {name:"Stumble Guys",cat:"Party",glyph:"🤪",h:120,desc:"Chaotic party obstacle race.",url:"https://www.stumbleguys.com/"},
+ {name:"YouTube Watcher",cat:"Media",glyph:"📺",h:200,desc:"Watch YouTube videos.",url:"https://www.youtube.com"},
+ {name:"Music Player",cat:"Media",glyph:"🎵",h:180,desc:"Listen to music.",url:"https://music.youtube.com"}
 ];
 const PIN="3830"; // Browser-side check only, not real security.
 const $=s=>document.querySelector(s);
@@ -285,11 +287,8 @@ function press(k){
   if(buf===PIN)open_();
   else{$("#msg").textContent="Wrong code";$("#dots").classList.add("shake");setTimeout(()=>$("#dots").classList.remove("shake"),420);buf="";dots()}
 }
-function createKeypad(){
-  ["1","2","3","4","5","6","7","8","9","x","0"].forEach(k=>{const b=document.createElement("button");b.textContent=k==="x"?"⌫":k;b.onclick=()=>press(k);$("#pad").append(b)});
-  addEventListener("keydown",e=>{if(/^\d$/.test(e.key))press(e.key);else if(e.key==="Backspace")press("x")});
-}
-document.addEventListener("DOMContentLoaded",createKeypad);
+["1","2","3","4","5","6","7","8","9","x","0"].forEach(k=>{const b=document.createElement("button");b.textContent=k==="x"?"⌫":k;b.onclick=()=>press(k);$("#pad").append(b)});
+addEventListener("keydown",e=>{if(/^\d$/.test(e.key))press(e.key);else if(e.key==="Backspace")press("x")});
 try{if(sessionStorage.getItem("ag")==="1"){$("#gate").classList.add("out");document.body.classList.add("in")}}catch(e){}
 
 /* library */
